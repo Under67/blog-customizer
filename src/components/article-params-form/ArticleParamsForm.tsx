@@ -37,18 +37,27 @@ export const ArticleParamsForm = ({ onApply }: Props) => {
 		useState<OptionType>(backgroundColors[0]);
 	const [selectedContentWidthArr, setSelectedContentWidthArr] =
 		useState<OptionType>(contentWidthArr[0]);
-	function handleReset() {
-		setSelectedFontSize(fontSizeOptions[0]);
-		setSelectedFontFamily(fontFamilyOptions[0]);
-		setSelectedFontColor(fontColors[0]);
-		setSelectedBackgroundColors(backgroundColors[0]);
-		setSelectedContentWidthArr(contentWidthArr[0]);
+	function handleReset(event: SyntheticEvent<HTMLFormElement>) {
+		event.preventDefault();
+
+		const defaultFontSize = fontSizeOptions[0];
+		const defaultFontFamily = fontFamilyOptions[0];
+		const defaultFontColor = fontColors[0];
+		const defaultBackgroundColor = backgroundColors[0];
+		const defaultContentWidth = contentWidthArr[0];
+
+		setSelectedFontSize(defaultFontSize);
+		setSelectedFontFamily(defaultFontFamily);
+		setSelectedFontColor(defaultFontColor);
+		setSelectedBackgroundColors(defaultBackgroundColor);
+		setSelectedContentWidthArr(defaultContentWidth);
+
 		onApply({
-			fontSizeOption: selectedFontSize,
-			fontFamilyOption: selectedFontFamily,
-			fontColor: selectedFontColor,
-			backgroundColor: selectedBackgroundColors,
-			contentWidth: selectedContentWidthArr,
+			fontSizeOption: defaultFontSize,
+			fontFamilyOption: defaultFontFamily,
+			fontColor: defaultFontColor,
+			backgroundColor: defaultBackgroundColor,
+			contentWidth: defaultContentWidth,
 		});
 	}
 	function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
@@ -66,7 +75,10 @@ export const ArticleParamsForm = ({ onApply }: Props) => {
 			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
 			<aside
 				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
-				<form className={styles.form} onSubmit={handleSubmit}>
+				<form
+					className={styles.form}
+					onSubmit={handleSubmit}
+					onReset={handleReset}>
 					<Text as='h2' weight={800} uppercase size={31}>
 						Задайте параметры
 					</Text>
@@ -103,12 +115,7 @@ export const ArticleParamsForm = ({ onApply }: Props) => {
 						onChange={setSelectedContentWidthArr}
 					/>
 					<div className={styles.bottomContainer}>
-						<Button
-							title='Сбросить'
-							htmlType='reset'
-							type='clear'
-							onClick={handleReset}
-						/>
+						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>
 				</form>
