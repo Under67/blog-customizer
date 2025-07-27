@@ -73,53 +73,60 @@ export const ArticleParamsForm = ({ onApply }: Props) => {
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
-				<form
-					className={styles.form}
-					onSubmit={handleSubmit}
-					onReset={handleReset}>
-					<Text as='h2' weight={800} uppercase size={31}>
-						Задайте параметры
-					</Text>
-					<Select
-						title='Шрифт'
-						options={fontFamilyOptions}
-						selected={selectedFontFamily}
-						onChange={setSelectedFontFamily}
-					/>
-					<RadioGroup
-						name='font-size'
-						title='Размер шрифта'
-						options={fontSizeOptions}
-						selected={selectedFontSize}
-						onChange={setSelectedFontSize}
-					/>
-					<Select
-						title='Цвет шрифта'
-						options={fontColors}
-						selected={selectedFontColor}
-						onChange={setSelectedFontColor}
-					/>
-					<Separator></Separator>
-					<Select
-						title='Цвет фона'
-						options={backgroundColors}
-						selected={selectedBackgroundColors}
-						onChange={setSelectedBackgroundColors}
-					/>
-					<Select
-						title='Ширина контента'
-						options={contentWidthArr}
-						selected={selectedContentWidthArr}
-						onChange={setSelectedContentWidthArr}
-					/>
-					<div className={styles.bottomContainer}>
-						<Button title='Сбросить' htmlType='reset' type='clear' />
-						<Button title='Применить' htmlType='submit' type='apply' />
-					</div>
-				</form>
-			</aside>
+			{isOpen && (
+				<div className={styles.overlay} onClick={() => setIsOpen(false)}>
+					<aside
+						className={clsx(styles.container, {
+							[styles.container_open]: isOpen,
+						})}
+						onClick={(e) => e.stopPropagation()}>
+						<form
+							className={styles.form}
+							onSubmit={handleSubmit}
+							onReset={handleReset}>
+							<Text as='h2' weight={800} uppercase size={31}>
+								Задайте параметры
+							</Text>
+							<Select
+								title='Шрифт'
+								options={fontFamilyOptions}
+								selected={selectedFontFamily}
+								onChange={setSelectedFontFamily}
+							/>
+							<RadioGroup
+								name='font-size'
+								title='Размер шрифта'
+								options={fontSizeOptions}
+								selected={selectedFontSize}
+								onChange={setSelectedFontSize}
+							/>
+							<Select
+								title='Цвет шрифта'
+								options={fontColors}
+								selected={selectedFontColor}
+								onChange={setSelectedFontColor}
+							/>
+							<Separator />
+							<Select
+								title='Цвет фона'
+								options={backgroundColors}
+								selected={selectedBackgroundColors}
+								onChange={setSelectedBackgroundColors}
+							/>
+							<Select
+								title='Ширина контента'
+								options={contentWidthArr}
+								selected={selectedContentWidthArr}
+								onChange={setSelectedContentWidthArr}
+							/>
+							<div className={styles.bottomContainer}>
+								<Button title='Сбросить' htmlType='reset' type='clear' />
+								<Button title='Применить' htmlType='submit' type='apply' />
+							</div>
+						</form>
+					</aside>
+				</div>
+			)}
 		</>
 	);
 };
